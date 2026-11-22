@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emberfall Duel — an original card battler</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23e5484d' d='M12 2 C14 6 18 8 18 13 A6 6 0 1 1 6 13 C6 10 8 8 9 6 C9 8 10 9 11 9 C10 7 11 4 12 2 Z'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- Title screen -->
+  <section id="title-screen" class="screen">
+    <div class="title-wrap">
+      <div class="title-marks" aria-hidden="true">
+        <span class="mark ember">🔥</span><span class="mark tide">💧</span><span class="mark thorn">🌿</span><span class="mark spark">⚡</span>
+      </div>
+      <h1>EMBERFALL DUEL</h1>
+      <p class="tagline">An original turn-based card battler. Four elements, one duel.</p>
+      <button id="btn-play" class="big-btn">Play the duel</button>
+      <div class="howto">
+        <h2>How to play</h2>
+        <ul>
+          <li><strong>You and Ash Warden start at 20 life.</strong> First to 0 loses.</li>
+          <li>Each turn you gain energy and draw a card. <strong>Click a card to select it, click again to play it.</strong> Keys 1–7 select, Enter plays, E ends the turn.</li>
+          <li><strong>Combos:</strong> play two linked elements in one turn for a free bonus — Ember+Spark burns, Tide+Thorn heals, Ember+Thorn draws, Tide+Spark charges energy.</li>
+          <li><strong>Read your opponent:</strong> Ash Warden telegraphs its next move, so guard when it strikes and strike when it guards.</li>
+        </ul>
+        <p class="judge-note">A complete card game: title, table, both hands, life totals, win and loss — built from scratch, no copied game.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table screen -->
+  <section id="table-screen" class="screen hidden">
+    <div id="enemy-panel" class="duelist enemy">
+      <div class="duelist-info">
+        <span class="duelist-name">Ash Warden</span>
+        <span class="life"><span class="heart">♥</span> <span id="enemy-life-num">20</span><span id="enemy-block" class="block"></span></span>
+        <span class="life-bar"><i id="enemy-life-bar"></i></span>
+        <span id="enemy-count" class="hand-count"></span>
+      </div>
+      <div id="enemy-hand" class="hand enemy-hand"></div>
+    </div>
+
+    <div class="middle">
+      <div class="middle-left">
+        <div id="intent-banner" class="intent hidden"></div>
+        <div id="played-area" class="played"></div>
+      </div>
+      <div class="middle-right">
+        <div class="panel-title">Element links</div>
+        <div id="combo-track" class="combos"></div>
+        <div class="panel-title">Duel log</div>
+        <ul id="log-list" class="log"></ul>
+      </div>
+    </div>
+
+    <div id="player-panel" class="duelist player">
+      <div class="duelist-info">
+        <span class="duelist-name">You</span>
+        <span class="life"><span class="heart">♥</span> <span id="player-life-num">20</span><span id="player-block" class="block"></span></span>
+        <span class="life-bar"><i id="player-life-bar"></i></span>
+        <span class="energy"><span id="energy-pips" class="pips"></span> <span id="energy-num">3/3</span></span>
+        <span id="turn-label" class="turn">Turn 1</span>
+        <span id="deck-count" class="counts"></span>
+        <span id="discard-count" class="counts"></span>
+        <button id="btn-end-turn" class="end-btn">End turn (E)</button>
+      </div>
+      <div id="player-hand" class="hand player-hand"></div>
+    </div>
+  </section>
+
+  <!-- End screen -->
+  <section id="end-screen" class="screen hidden">
+    <div class="end-wrap">
+      <h1 id="end-title">VICTORY</h1>
+      <p id="end-sub" class="end-sub"></p>
+      <p id="end-life" class="end-life"></p>
+      <p id="end-stats" class="end-stats"></p>
+      <button id="btn-again" class="big-btn">Duel again (R)</button>
+    </div>
+  </section>
+
+  <div id="confetti-layer"></div>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
