@@ -1,50 +1,58 @@
-// Screenshot staging for Emberfall Duel.
+// Screenshot staging for Emberfall Duel v2.
 //
 // The game reads ?shot=<scene>&seed=<n> and stages that scene
-// deterministically, so the four screenshots are real renders of the game's
-// own code, taken in a browser:
-//   title — the title screen, as a new player sees it.
+// deterministically, so the four screenshots are real renders of the
+// game's own code, taken in a browser:
+//   title — the title screen, with its fan of sample cards.
 //   table — a mid-game table: both hands, life totals, energy, a fired
-//           combo, the AI's telegraphed intent, and a card played face-up.
-//   win   — the victory screen with confetti.
-//   loss  — the defeat screen.
+//           combo WITH its burst banner, a chained card played face-up,
+//           the Warden's telegraphed chain intent, and three new v2 cards
+//           in the player's hand.
+//   win   — the victory screen with confetti and the final-blow card.
+//   loss  — the defeat screen with the Warden's finishing blow.
 //
 // Staging builds a state through the same newGame() the real game uses,
 // then sets the scene's numbers directly — no separate mock renderer, so
 // what the screenshots show is what the game really looks like.
 
-import { newGame, logLine } from './state.js';
-import { chooseIntent } from './ai.js';
-import { cardById } from './config.js';
+import { COMBOS, cardById } from './config.js';
+import { newGame } from './state.js';
 
 function stageTable(state) {
   state.phase = 'player';
-  state.turn = 4;
-  state.player.life = 14;
+  state.turn = 5;
+  state.player.life = 13;
   state.player.maxEnergy = 6;
   state.player.energy = 5;
-  state.player.block = 3;
+  state.player.block = 4;
   state.player.hand = [
-    'ember-strike', 'spark-strike', 'tide-guard', 'thorn-surge', 'ember-surge',
+    'ember-strike', 'spark-strike', 'tide-guard',
+    'thorn-bramble', 'ember-pyre', 'tide-riptide',
   ];
-  state.player.deck = state.player.deck.slice(0, 12);
-  state.player.discard = ['ember-guard', 'tide-strike'];
-  state.enemy.life = 11;
+  state.player.deck = state.player.deck.slice(0, 14);
+  state.player.discard = ['ember-guard', 'tide-strike', 'spark-guard'];
+  state.enemy.life = 10;
   state.enemy.hand = ['ember-strike', 'tide-guard', 'spark-guard', 'thorn-strike'];
-  state.enemy.deck = state.enemy.deck.slice(0, 12);
+  state.enemy.deck = state.enemy.deck.slice(0, 14);
   state.enemy.discard = ['tide-surge'];
   state.elementsThisTurn = ['ember', 'spark'];
+  state.chainCount = { ember: 1, spark: 1 };
   state.combosFired = ['Wildfire'];
-  state.stats.combos = 1;
-  state.stats.cardsPlayed = 9;
-  state.stats.turns = 4;
-  state.lastPlayed = { by: 'enemy', card: cardById('spark-strike') };
-  state.intent = { kind: 'strike', value: 6, text: 'Ash Warden will strike for 6' };
+  state.comboBurst = COMBOS.find((c) => c.name === 'Wildfire');
+  state.stats.combos = 2;
+  state.stats.chains = 2;
+  state.stats.cardsPlayed = 12;
+  state.stats.turns = 5;
+  // The played card chained: a second Spark this turn, +2 damage.
+  const chained = { ...cardById('spark-strike'), damage: 9 };
+  state.lastPlayed = { by: 'player', card: chained, chained: true };
+  state.intent = { kind: 'chain', element: 'thorn', text: 'Ash Warden is chaining Thorn' };
   state.log = [
     'Combo Wildfire! Ember + Spark: deal 3 damage.',
-    'Ash Warden played Spark Strike.',
+    'Chain! spark x2: +2 damage.',
+    'You played Spark Strike.',
     'You played Ember Surge.',
-    'Turn 4 begins. Energy refills to 6.',
+    'Turn 5 begins. Energy refills to 6.',
   ];
   return state;
 }
@@ -52,12 +60,14 @@ function stageTable(state) {
 function stageWin(state) {
   state.phase = 'over';
   state.winner = 'player';
-  state.turn = 7;
-  state.player.life = 8;
+  state.turn = 8;
+  state.player.life = 6;
   state.enemy.life = 0;
-  state.stats.turns = 7;
-  state.stats.cardsPlayed = 18;
-  state.stats.combos = 3;
+  state.stats.turns = 8;
+  state.stats.cardsPlayed = 21;
+  state.stats.combos = 4;
+  state.stats.chains = 3;
+  state.lastPlayed = { by: 'player', card: cardById('ember-pyre'), chained: false };
   return state;
 }
 
@@ -70,6 +80,8 @@ function stageLoss(state) {
   state.stats.turns = 6;
   state.stats.cardsPlayed = 14;
   state.stats.combos = 1;
+  state.stats.chains = 1;
+  state.lastPlayed = { by: 'enemy', card: cardById('spark-strike'), chained: false };
   return state;
 }
 
@@ -86,5 +98,3 @@ export function stageShot(scene, seed) {
   if (scene === 'loss') return stageLoss(state);
   return null;
 }
-
-export { chooseIntent, logLine };

@@ -17,14 +17,16 @@
         <span class="mark ember">🔥</span><span class="mark tide">💧</span><span class="mark thorn">🌿</span><span class="mark spark">⚡</span>
       </div>
       <h1>EMBERFALL DUEL</h1>
-      <p class="tagline">An original turn-based card battler. Four elements, one duel.</p>
+      <p class="tagline">An original turn-based card battler. Four elements, six links, one duel.</p>
       <button id="btn-play" class="big-btn">Play the duel</button>
+      <div id="title-fan" class="title-fan"></div>
       <div class="howto">
         <h2>How to play</h2>
         <ul>
           <li><strong>You and Ash Warden start at 20 life.</strong> First to 0 loses.</li>
           <li>Each turn you gain energy and draw a card. <strong>Click a card to select it, click again to play it.</strong> Keys 1–7 select, Enter plays, E ends the turn.</li>
-          <li><strong>Combos:</strong> play two linked elements in one turn for a free bonus — Ember+Spark burns, Tide+Thorn heals, Ember+Thorn draws, Tide+Spark charges energy.</li>
+          <li><strong>Links:</strong> play two different elements in one turn to fire one free combo — all six pairs link (Wildfire, Bloomtide, Ashbloom, Stormsurge, Steamveil, Stormbloom), but only one per turn, so play order picks the link.</li>
+          <li><strong>Chains:</strong> play the SAME element twice in one turn and the second card gains +2. Link or chain — every hand is a choice.</li>
           <li><strong>Read your opponent:</strong> Ash Warden telegraphs its next move, so guard when it strikes and strike when it guards.</li>
         </ul>
         <p class="judge-note">A complete card game: title, table, both hands, life totals, win and loss — built from scratch, no copied game.</p>
@@ -47,6 +49,7 @@
     <div class="middle">
       <div class="middle-left">
         <div id="intent-banner" class="intent hidden"></div>
+        <div id="combo-burst" class="burst hidden"></div>
         <div id="played-area" class="played"></div>
       </div>
       <div class="middle-right">
@@ -75,10 +78,13 @@
   <!-- End screen -->
   <section id="end-screen" class="screen hidden">
     <div class="end-wrap">
+      <div class="end-laurel" aria-hidden="true"></div>
       <h1 id="end-title">VICTORY</h1>
       <p id="end-sub" class="end-sub"></p>
       <p id="end-life" class="end-life"></p>
       <p id="end-stats" class="end-stats"></p>
+      <div id="end-blow" class="end-blow"></div>
+      <p id="end-tip" class="end-tip"></p>
       <button id="btn-again" class="big-btn">Duel again (R)</button>
     </div>
   </section>

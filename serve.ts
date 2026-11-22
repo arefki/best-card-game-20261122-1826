@@ -1,6 +1,6 @@
-// Development server for Emberfall Duel (Node 22, standard library only).
+// Development server for Emberfall Duel v2 (Node 22, standard library only).
 //
-// Serves game/ on http://localhost:8080 so the game can be played and
+// Serves game/ on http://localhost:8080 so the duel can be played and
 // screenshotted in a desktop browser with no build step:
 //   node serve.ts [--port 8080]
 // Only files inside game/ are served; anything else gets a 404.
@@ -52,5 +52,5 @@ createServer((req, res) => {
   });
   res.end(body);
 }).listen(port, '127.0.0.1', () => {
-  console.log(`Emberfall Duel is on http://localhost:${port}`);
+  console.log(`Emberfall Duel v2 is on http://localhost:${port}`);
 });

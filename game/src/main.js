@@ -1,17 +1,17 @@
-// Boot and turn driver for Emberfall Duel.
+// Boot and turn driver for Emberfall Duel v2.
 //
 // main.js wires the modules together: it reads ?shot= and ?seed=, builds
 // the state, binds the input, and runs the turn loop. The player acts
-// freely on their turn; End Turn hands over to the AI, which plays its
-// planned cards one by one with a beat between them so each flip reads,
-// then the next turn begins. A staged ?shot= scene renders once and does
-// not play — it exists for the screenshots.
+// freely on their turn; End Turn hands over to the Warden, which plays
+// its planned cards one by one with a beat between them so each flip
+// reads, then the next turn begins. A staged ?shot= scene renders once
+// and does not play — it exists for the screenshots.
 
 import { beginTurn, canPlay, checkWinner, logLine, newGame, playCard } from './state.js';
 import { chooseIntent, planEnemyTurn } from './ai.js';
 import { renderEnd, renderTable, renderTitle } from './render.js';
 import { bindInput } from './input.js';
-import { confettiBurst, dealIn, floatNumber, shake, sleep } from './anim.js';
+import { confettiBurst, dealIn, floatNumber, pulseBurst, shake, sleep } from './anim.js';
 import { stageShot } from './shots.js';
 
 const params = new URLSearchParams(window.location.search);
@@ -67,8 +67,11 @@ async function playSelected(id) {
   if (report && report.effect.healed) {
     floatNumber(document.getElementById('player-panel'), `+${report.effect.healed}`, 'heal');
   }
+  if (report && report.chained) {
+    floatNumber(document.getElementById('played-area'), 'CHAIN +2', 'combo');
+  }
   if (report && report.combos.length > 0) {
-    floatNumber(document.getElementById('played-area'), report.combos[0].name, 'combo');
+    pulseBurst(document.getElementById('combo-burst'));
   }
   await sleep(420);
   busy = false;
@@ -88,6 +91,9 @@ async function endTurn() {
     if (report.effect.damage) {
       floatNumber(document.getElementById('player-panel'), `-${report.effect.damage}`, 'damage');
       shake(document.getElementById('player-panel'));
+    }
+    if (report.combos.length > 0) {
+      pulseBurst(document.getElementById('combo-burst'));
     }
     await sleep(750);
     if (state.phase === 'over') break;
@@ -110,11 +116,7 @@ function onSlot(index) {
 }
 
 function onConfirm() {
-  if (state.phase === 'title') {
-    startGame();
-    return;
-  }
-  if (state.phase === 'over') {
+  if (state.phase === 'title' || state.phase === 'over') {
     startGame();
     return;
   }

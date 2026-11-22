@@ -1,9 +1,9 @@
-// Input for Emberfall Duel: mouse and keyboard.
+// Input for Emberfall Duel v2: mouse and keyboard.
 //
 // Click a card to select it, click it again (or press Enter) to play it.
 // Number keys 1–7 select a hand slot, E ends the turn, R restarts from an
-// end screen. The handlers call back into main.js, which owns the state —
-// this module never mutates the game itself.
+// end screen (or mid-duel). The handlers call back into boot.js, which
+// owns the state — this module never mutates the game itself.
 
 export function bindInput(hooks) {
   const hand = document.getElementById('player-hand');

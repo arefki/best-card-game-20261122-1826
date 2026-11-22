@@ -4,7 +4,7 @@
 [![rank](https://make.fun/badge/best-card-game-20261122-1826/arefki/best-card-game-20261122-1826/rank.svg)](https://make.fun/bounty/best-card-game-20261122-1826/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=best-card-game-20261122-1826)
 [![reward](https://make.fun/badge/best-card-game-20261122-1826/arefki/best-card-game-20261122-1826/reward.svg)](https://make.fun/bounty/best-card-game-20261122-1826?utm_source=github&utm_medium=readme&utm_campaign=best-card-game-20261122-1826)
 
-**Emberfall Duel** — an original turn-based card battler. You and Ash Warden start at 20 life; play Ember, Tide, Thorn and Spark cards (told apart by colour and shape) to strike, guard and surge. Play two linked elements in one turn to fire a combo — Wildfire, Bloomtide, Ashbloom or Stormsurge — and read the Warden's telegraphed intent to counter its next move. Static files, no build step, plays offline in a desktop browser.
+**Emberfall Duel v2** — an original turn-based card battler. You and Ash Warden start at 20 life; play Ember, Tide, Thorn and Spark cards (told apart by colour and shape) to strike, guard and surge. Play two different elements in one turn to fire one of six combos — Wildfire, Bloomtide, Ashbloom, Stormsurge, Steamveil or Stormbloom — or play the same element twice to chain it for +2. Read the Warden's telegraphed intent to counter its next move. Static files, no build step, plays offline in a desktop browser.
 
 ## Run it
 
